@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 40px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #e2b8ff;
+        }
+
+        .player-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 320px;
+            position: relative;
+            margin-top: 100px;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        audio {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .lyrics {
+            display: none;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            white-space: pre-line;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        button {
+            background: #8a2be2;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #d580ff;
+        }
+
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .arrow-btn {
+            background: transparent;
+            font-size: 1.5rem;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .arrow-btn:hover {
+            color: #ffd6ff;
+        }
+    </style>
+</head>
+
+<body>
+  
+    <nav>
+        <div class="logo">Songify</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="About_me.html">About Me</a></li>
+            <li><a href="About_the_Website.html">About the Website</a></li>
+            <li><a href="Contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+   
+    <div class="player-card" id="playerCard">
+        <img src="thumbnail1.jpg" alt="Song Thumbnail" class="thumbnail" id="songThumbnail">
+        <h2 id="songTitle">Levitating – Dua Lipa</h2>
+        <audio id="songAudio" controls>
+            <source src="song1.mp3" type="audio/mpeg">
+        </audio>
+        <button onclick="toggleLyrics()">Show Lyrics</button>
+        <div class="lyrics" id="lyricsBox">
+            <p>A lyrics of the song</p>
+        </div>
+        <div class="arrows">
+            <button class="arrow-btn" onclick="prevSong()">⬅️</button>
+            <button class="arrow-btn" onclick="nextSong()">➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const songs = [
+            {
+                title: "Dua Lipa – Levitating",
+                src: "Dua_lipa.mp3",
+                thumbnail: "Dua_lipa_Thumbnail.png",
+                lyrics: `If you wanna run away with me, I know a galaxy 
+And I can take you for a ride
+I had a premonition that we fell into a rhythm
+Where the music don't stop for life
+Glitter in the sky, glitter in my eyes
+Shining just the way I like
+If you're feeling like you need a little bit of company
+You met me at the perfect time
+You want me, I want you, baby
+My sugarboo, I'm levitating
+The Milky Way, we're renegading
+Yeah, yeah, yeah, yeah, yeah
+I got you, moonlight, you're my starlight
+I need you all night, come on, dance with me
+I'm levitating
+You, moonlight, you're my starlight (you're the moonlight)
+I need you all night, come on, dance with me
+I'm levitating
+I believe that you're for me, I feel it in our energy
+I see us written in the stars
+We can go wherever, so let's do it now or never, baby
+Nothing's ever, ever too far
+Glitter in the sky, glitter in our eyes
+Shining just the way we are
+I feel like we're forever, every time we get together
+But whatever, let's get lost on Mars
+You want me, I want you, baby
+My sugarboo, I'm levitating
+The Milky Way, we're renegading
+Yeah, yeah, yeah, yeah, yeah
+I got you, moonlight, you're my starlight
+I need you all night, come on, dance with me
+I'm levitating
+You, moonlight, you're my starlight (you're the moonlight)
+I need you all night, come on, dance with me
+I'm levitating (whoo)
+You can fly away with me tonight
+You can fly away with me tonight
+Baby, let me take you for a ride
+Yeah, yeah, yeah, yeah, yeah
+I'm levitating (whoo)
+You can fly away with me tonight
+You can fly away with me tonight
+Baby, let me take you for a ride
+Yeah, yeah, yeah, yeah, yeah (whoo)
+My love is like a rocket, watch it blast off
+And I'm feeling so electric, dance my arse off
+And even if I wanted to, I can't stop
+Yeah, yeah, yeah, yeah, yeah (whoo)
+My love is like a rocket, watch it blast off
+And I'm feeling so electric, dance my arse off
+And even if I wanted to, I can't stop
+Yeah, yeah, yeah, yeah, yeah
+You want me, I want you, baby
+My sugarboo, I'm levitating
+The Milky Way, we're renegading
+I got you (yeah), moonlight, you're my starlight
+I need you all night (all night), come on, dance with me
+I'm levitating (whoo)
+You can fly away with me tonight (tonight)
+You can fly away with me tonight
+Baby, let me take you for a ride
+Yeah, yeah, yeah, yeah, yeah (let me take you for a ride)
+I'm levitating (whoo)
+You can fly away with me tonight (tonight)
+You can fly away with me tonight
+Baby, let me take you for a ride
+Yeah, yeah, yeah, yeah, yeah (let me take you for a ride)
+I got you, moonlight, you're my starlight (you are my starlight)
+I need you all night, come on, dance with me (come on, dance with me, baby)
+I'm levitating
+You, moonlight, you're my starlight (you're the moonlight)
+I need you all night, come on, dance with me
+I'm levitating`
+            },
+            {
+                title: "Artic Monkeys – No.1 Party Anthem",
+                src: "No. 1 Party Anthem.mp3",
+                thumbnail: "Artic_monkey_Thumbnail.jpg",
+                lyrics: `So you're on the prowl wondering whether
+She left already or not
+Leather jacket, collar popped like Cantona
+Never knowing when to stop
+Sunglasses indoor is par for the course
+Lights in the floors and sweat on the walls
+Cages and poles
+Call off the search for your soul
+Or put it on hold again
+She's having a sly indoor smoke
+And she calls the folks who run this, her oldest friends
+Sipping a drink and laughing at imaginary jokes
+As all the signals are sent, her eyes invite you to approach
+And it seems as though those lumps in your throat
+That you just swallowed have got you going
+Come on, come on, come on
+Come on, come on, come on
+Number one party anthem
+She's a certified mind blower
+Knowing full, well, that I don't
+May suggest there's somewhere from which I might know her
+Just to get the ball to roll
+Drunken monologues, confused because
+It's not like I'm falling in love, I just want ya
+To do me no good
+And you look like you could
+Come on, come on, come on
+Come on, come on, come on
+Number one party anthem
+Come on, come on, come on
+Before the moment's gone
+Number one party anthem, yeah, yeah
+The look of love, the rush of blood
+The "She's with me" is the Gallic shrug
+The shutterbugs, the Camera Plus
+The black and white and the color dodge
+The good time girls, the cubicles
+The house of fun, the number one
+Party anthem, oh
+Come on, come on, come on
+Come on, come on, come on
+Come on, come on, come on
+Come on, come on, come on
+Before the moment's gone
+Number one party anthem
+Number one party anthem
+Number one party anthem
+Yeah, yeah`
+            },
+            {
+                title: "Edwin McCain - I'll Be ",
+                src: "I'll_be_Edwin_Mccain.mp3",
+                thumbnail: "Edwin_Thumbnail.jpg",
+                lyrics: `The strands in your eyes that color them wonderful
+Stop me and steal my breath
+And emeralds from mountains thrust towards the sky
+Never revealing their depth
+
+And tell me that we belong together
+Dress it up with the trappings of love
+I'll be captivated, I'll hang from your lips
+Instead of the gallows of heartache that hang from above
+
+And I'll be your cryin' shoulder
+I'll be love's suicide
+I'll be better when I'm older
+I'll be the greatest fan of your life
+
+And rain falls angry on the tin roof
+As we lie awake in my bed
+You're my survival, you're my living proof
+My love is alive and not dead
+
+So tell me that we belong together
+Dress it up with the trappings of love
+I'll be captivated, I'll hang from your lips
+Instead of the gallows of heartache that hang from above
+
+And I'll be your cryin' shoulder
+I'll be love's suicide
+I'll be better when I'm older
+I'll be the greatest fan of your life
+
+And I've dropped out, I've burned up
+I fought my way back from the dead
+I've tuned in, I've turned on
+Remembered the things that you said
+
+And I'll be your your cryin' shoulder
+I'll be love's suicide
+I'll be better when I'm older
+I'll be the greatest fan of your-
+
+I'll be your cryin' shoulder
+I'll be love's suicide
+I'll be better when I'm older
+I'll be the greatest fan of your life
+
+The greatest fan of your life`
+            }
+        ];
+
+        let currentSong = 0;
+
+        const songTitle = document.getElementById("songTitle");
+        const songAudio = document.getElementById("songAudio");
+        const songThumbnail = document.getElementById("songThumbnail");
+        const lyricsBox = document.getElementById("lyricsBox");
+
+        function loadSong(index) {
+            const song = songs[index];
+            songTitle.textContent = song.title;
+            songAudio.src = song.src;
+            songThumbnail.src = song.thumbnail;
+            lyricsBox.innerText = song.lyrics;
+
+            lyricsBox.style.display = "none";
+        }
+
+        function toggleLyrics() {
+            if (lyricsBox.style.display === "none") {
+                lyricsBox.style.display = "block";
+            } else {
+                lyricsBox.style.display = "none";
+            }
+        }
+
+        function nextSong() {
+            currentSong = (currentSong + 1) % songs.length;
+            loadSong(currentSong);
+            songAudio.play();
+        }
+
+        function prevSong() {
+            currentSong = (currentSong - 1 + songs.length) % songs.length;
+            loadSong(currentSong);
+            songAudio.play();
+        }
+
+
+        loadSong(currentSong);
+    </script>
+</body>
+
+</html>
